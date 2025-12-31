@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy New Year 🎉</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg, #1d2671, #c33764);
+    font-family:'Segoe UI', sans-serif;
+    overflow:hidden;
+    color:#3b2a1a;
+}
+
+/* 🌈 BACKGROUND BALLOONS & EMOJIS – ALWAYS ON */
+.bg{
+    position:absolute;
+    font-size:26px;
+    animation: bgFloat 10s linear infinite;
+    opacity:0.8;
+}
+@keyframes bgFloat{
+    from{ transform:translateY(110vh); }
+    to{ transform:translateY(-20vh); }
+}
+
+/* 🎆 EXTRA ITEMS – ONLY AFTER CARD */
+.extra{
+    position:absolute;
+    font-size:30px;
+    animation: extraFly 8s linear infinite;
+    display:none;
+}
+@keyframes extraFly{
+    from{ transform:translateY(120vh) rotate(0deg); }
+    to{ transform:translateY(-20vh) rotate(360deg); }
+}
+
+/* ⏳ COUNTDOWN */
+#countdownScreen{
+    text-align:center;
+    z-index:5;
+    color:white;
+}
+#countdownScreen button{
+    padding:16px 35px;
+    font-size:20px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    background: linear-gradient(135deg,#ffdd00,#ff9f00);
+    color:#4b2c00;
+}
+#countNumber{
+    font-size:80px;
+    margin-top:20px;
+}
+
+/* 📜 PAPER CARD */
+#wishes{
+    display:none;
+    z-index:5;
+}
+
+.paper{
+    width:320px;
+    padding:30px 25px;
+    background: linear-gradient(#fdf7e3,#f6ecd1);
+    border-radius:6px;
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.4),
+        inset 0 0 30px rgba(0,0,0,0.05);
+    position:relative;
+    animation: fadeIn 1.5s ease;
+}
+
+.paper::before,
+.paper::after{
+    content:"";
+    position:absolute;
+    left:-6px;
+    right:-6px;
+    height:12px;
+    background:#f6ecd1;
+    filter: blur(2px);
+}
+.paper::before{ top:-6px; }
+.paper::after{ bottom:-6px; }
+
+.paper h1{ font-size:24px; margin-bottom:6px; }
+.paper h2{ font-size:16px; margin-bottom:12px; }
+
+.paper img{
+    width:100%;
+    border-radius:6px;
+    margin:10px 0 15px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.3);
+}
+
+.paper p{
+    font-size:15px;
+    line-height:1.6;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:scale(0.85);}
+    to{opacity:1; transform:scale(1);}
+}
+
+/* 🎵 Music Button */
+#musicBtn{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    font-size:22px;
+    background:rgba(255,255,255,0.25);
+    backdrop-filter:blur(10px);
+    box-shadow:0 0 15px rgba(255,255,255,0.6);
+    z-index:10;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🌈 BACKGROUND -->
+<div class="bg" style="left:10%">🎈</div>
+<div class="bg" style="left:30%; animation-delay:2s">💖</div>
+<div class="bg" style="left:50%; animation-delay:4s">✨</div>
+<div class="bg" style="left:70%; animation-delay:1s">🎉</div>
+<div class="bg" style="left:90%; animation-delay:3s">❤️</div>
+
+<!-- 🎆 AFTER CARD -->
+<div class="extra" style="left:25%">🎆</div>
+<div class="extra" style="left:45%">🍫</div>
+<div class="extra" style="left:65%">🌸</div>
+
+<!-- ⏳ COUNTDOWN -->
+<div id="countdownScreen">
+    <button onclick="startCountdown()">🎉 Start Countdown</button>
+    <div id="countNumber"></div>
+</div>
+
+<!-- 📜 PAPER CARD -->
+<div id="wishes">
+    <div class="paper">
+        <h1>Happy New Year 🎉</h1>
+        <h2>Best Wishes for You</h2>
+
+        <img src="C:\Users\Yashaswi\Downloads\happy new year\sakshi.jpeg">
+
+        <p>
+            May this New Year bring  
+            happiness, peace and success  
+            into your life 🌸
+        </p>
+
+        <p>
+            New hopes, new dreams  
+            and a fresh beginning ✨
+        </p>
+    </div>
+</div>
+
+<!-- 🎶 Background Music -->
+<audio id="bgMusic" autoplay loop>
+    <source src="C:\Users\Yashaswi\Downloads\happy new year\WhatsApp Audio 2025-12-31 at 2.48.33 PM.mpeg" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn">🎵</button>
+
+<script>
+let count = 5;
+const music = document.getElementById("bgMusic");
+const btn = document.getElementById("musicBtn");
+
+btn.onclick = ()=>{
+    if(music.paused){
+        music.play();
+        btn.innerText = "🎵";
+    }else{
+        music.pause();
+        btn.innerText = "🔇";
+    }
+};
+
+function startCountdown(){
+    document.querySelector("#countdownScreen button").style.display="none";
+    const num = document.getElementById("countNumber");
+
+    const timer = setInterval(()=>{
+        num.innerText = count;
+        count--;
+
+        if(count < 0){
+            clearInterval(timer);
+            document.getElementById("countdownScreen").style.display="none";
+            document.getElementById("wishes").style.display="block";
+
+            document.querySelectorAll(".extra").forEach(el=>{
+                el.style.display="block";
+            });
+        }
+    },1000);
+}
+</script>
+
+</body>
+</html>
